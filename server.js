@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const dotenv = require('dotenv')
 const auth = require('./routes/auth')
+const profile = require('./routes/profile')
 
 mongoose.connect('mongodb://127.0.0.1/albumDetailUsers').then(() => {
     console.log('Connected to Mongodb')
@@ -20,7 +21,8 @@ dotenv.config();
 app.get('/api/client-id', (request, response) => {
     response.json({clientId: process.env.CLIENT_ID, clientSecret: process.env.CLIENT_SECRET})
 })
-app.use('/api/auth', auth);
+app.use('/api/auth', auth)
+app.use('/api/profile', profile)
 
 
 const PORT = process.env.PORT || 5000;
