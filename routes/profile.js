@@ -9,10 +9,21 @@ router.post('/add', async (request, response) => {
 
         const user = await User.findOneAndUpdate(
             {username: username},
-            {$push: {albumId: id}},
+            {$addToSet: {albumId: id}},
             {new: true}
         )
         return response.status(200).send(user)
+    } catch (error) {
+        console.error(error)
+        return response.status(500).send('Server Error')
+    }
+})
+router.get('/getAlbums', async (request, response) => {
+    const username = request.query.username;
+    try {
+        const albumData = await User.find({ username })
+        const albumId = albumData[0].albumId;
+        return response.status(200).send(albumId)
     } catch (error) {
         console.error(error)
         return response.status(500).send('Server Error')
